@@ -1016,9 +1016,18 @@ class InstagramAPI:
                 return followers
             next_max_id = temp["next_max_id"]
 
-    def getTotalUserFeed(self, usernameId, minTimestamp=None):
+    def getTotalUserFeed(self, usernameId, minTimestamp=None, next_max_id=''):
+        """
+
+        :param usernameId: (str) instagram id, e.g. '1559944'
+        :param minTimestamp: (int) min timestamp
+        :param next_max_id: (str) post id to start from, going forward
+            e.g. '1749075388603394465_1559944'
+        :return: ([dict]) list of dictionaries,
+            each one an image/video/carousel
+        """
         user_feed = []
-        next_max_id = ''
+
         while True:
             self.getUserFeed(usernameId, next_max_id, minTimestamp)
             temp = self.LastJson
