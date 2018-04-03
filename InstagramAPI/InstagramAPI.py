@@ -1017,7 +1017,8 @@ class InstagramAPI:
             next_max_id = temp["next_max_id"]
 
     def getTotalUserFeed(self, usernameId, minTimestamp=None, next_max_id=''):
-        """
+        """ get list of all user's posted content,
+            optionally starting from a given post id (next_max_id)
 
         :param usernameId: (str) instagram id, e.g. '1559944'
         :param minTimestamp: (int) min timestamp
