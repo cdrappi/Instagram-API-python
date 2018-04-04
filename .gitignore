@@ -1,3 +1,11 @@
 *.pyc
 InstagramApi.egg-info/
 dist/
+
+venv
+
+# PyCharm
+.idea/
+
+# Mac OS X hidden files
+.DS_Store
