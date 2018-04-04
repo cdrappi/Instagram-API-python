@@ -1021,7 +1021,7 @@ class InstagramAPI:
                          minTimestamp=None,
                          next_max_id='',
                          max_posts=None):
-        """
+        """ get all the content on an instagram user's feed
 
         :param usernameId: (str) instagram user id
             e.g. '1574083' is the id for username 'snoopdogg'
@@ -1030,12 +1030,13 @@ class InstagramAPI:
             so if you wanted posts from 1 week ago to today,
             you might pass in minTimestamp = time.time() - 7*24*60*60
         :param next_max_id: (str) e.g. '1750231298150095376_1574083'
-            the largest post id you will receive.
-            used for querying older posts. calling with next_max_id=''
-            will begin returning recent posts, and then go back in time
+            the largest post id you will receive. this argument is used
+            in pagination, for querying older posts.
+            calling with next_max_id='' will begin returning recent posts,
+            and then go back in time
         :param max_posts: (int) if provided, return after receiving
             this many posts or more
-        :return: 
+        :return: ([dict]) list of dictionaries
         """
         user_feed = []
         while True:
@@ -1043,16 +1044,17 @@ class InstagramAPI:
 
             temp = self.LastJson
             for item in temp["items"]:
+                # TODO: ^^ investigate what it means when this throws KeyError
                 user_feed.append(item)
 
             if max_posts and len(user_feed) >= max_posts:
                 return user_feed
 
             if temp["more_available"] is False:
+                # TODO: ^^ investigate what it means when this throws KeyError
                 return user_feed
 
             next_max_id = temp["next_max_id"]
-
 
     def getTotalSelfUserFeed(self, minTimestamp=None):
         return self.getTotalUserFeed(self.username_id, minTimestamp)
