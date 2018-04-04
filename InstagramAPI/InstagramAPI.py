@@ -1041,19 +1041,17 @@ class InstagramAPI:
         user_feed = []
         while True:
             self.getUserFeed(usernameId, next_max_id, minTimestamp)
-
             temp = self.LastJson
             for item in temp["items"]:
                 # TODO: ^^ investigate what it means when this throws KeyError
                 user_feed.append(item)
 
-            if max_posts and len(user_feed) >= max_posts:
+            if max_posts and len(user_feed) > max_posts:
                 return user_feed
 
             if temp["more_available"] is False:
                 # TODO: ^^ investigate what it means when this throws KeyError
                 return user_feed
-
             next_max_id = temp["next_max_id"]
 
     def getTotalSelfUserFeed(self, minTimestamp=None):
