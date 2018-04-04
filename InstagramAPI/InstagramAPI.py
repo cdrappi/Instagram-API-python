@@ -1029,7 +1029,8 @@ class InstagramAPI:
             (in theory) fetch all posts published after this timestamp,
             so if you wanted posts from 1 week ago to today,
             you might pass in minTimestamp = time.time() - 7*24*60*60
-        :param next_max_id: (str) the largest post id you will receive.
+        :param next_max_id: (str) e.g. '1750231298150095376_1574083'
+            the largest post id you will receive.
             used for querying older posts. calling with next_max_id=''
             will begin returning recent posts, and then go back in time
         :param max_posts: (int) if provided, return after receiving
@@ -1037,7 +1038,6 @@ class InstagramAPI:
         :return: 
         """
         user_feed = []
-        next_max_id = ''
         while True:
             self.getUserFeed(usernameId, next_max_id, minTimestamp)
 
