@@ -25,7 +25,7 @@ try:
     from moviepy.editor import VideoFileClip
 except ImportError:
     print("Fail to import moviepy. Need only for Video upload.")
-
+    
 
 # The urllib library was split into other modules from Python 2 to Python 3
 if sys.version_info.major == 3:
@@ -387,7 +387,7 @@ class InstagramAPI:
             except:
                 pass
             return False
-
+    
     def direct_message(self, text, recipients):
         if type(recipients) != type([]):
             recipients = [str(recipients)]
@@ -429,7 +429,7 @@ class InstagramAPI:
         )
         #self.SendRequest(endpoint,post=data) #overwrites 'Content-type' header and boundary is missed
         response = self.s.post(self.API_URL + endpoint, data=data)
-
+        
         if response.status_code == 200:
             self.LastResponse = response
             self.LastJson = json.loads(response.text)
@@ -443,7 +443,7 @@ class InstagramAPI:
             except:
                 pass
             return False
-
+        
     def direct_share(self, media_id, recipients, text=None):
         if not isinstance(position, list):
             recipients = [str(recipients)]
@@ -1016,43 +1016,17 @@ class InstagramAPI:
                 return followers
             next_max_id = temp["next_max_id"]
 
-    def getTotalUserFeed(self,
-                         usernameId,
-                         minTimestamp=None,
-                         next_max_id='',
-                         max_posts=None):
-        """
-
-        :param usernameId: (str) instagram user id
-            e.g. '1574083' is the id for username 'snoopdogg'
-        :param minTimestamp: (int|None) timestamp in seconds
-            (in theory) fetch all posts published after this timestamp,
-            so if you wanted posts from 1 week ago to today,
-            you might pass in minTimestamp = time.time() - 7*24*60*60
-        :param next_max_id: (str) the largest post id you will receive.
-            used for querying older posts. calling with next_max_id=''
-            will begin returning recent posts, and then go back in time
-        :param max_posts: (int) if provided, return after receiving
-            this many posts or more
-        :return: 
-        """
+    def getTotalUserFeed(self, usernameId, minTimestamp=None):
         user_feed = []
         next_max_id = ''
         while True:
             self.getUserFeed(usernameId, next_max_id, minTimestamp)
-
             temp = self.LastJson
             for item in temp["items"]:
                 user_feed.append(item)
-
-            if max_posts and len(user_feed) >= max_posts:
-                return user_feed
-
             if temp["more_available"] is False:
                 return user_feed
-
             next_max_id = temp["next_max_id"]
-
 
     def getTotalSelfUserFeed(self, minTimestamp=None):
         return self.getTotalUserFeed(self.username_id, minTimestamp)
