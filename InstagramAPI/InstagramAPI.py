@@ -15,6 +15,7 @@ import sys
 from datetime import datetime
 import calendar
 import os
+import imageio
 from requests_toolbelt import MultipartEncoder
 
 # Turn off InsecureRequestWarning
@@ -23,7 +24,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 try:
     from moviepy.editor import VideoFileClip
-except ImportError:
+except (ImportError, imageio.core.fetching.NeedDownloadError):
     print("Fail to import moviepy. Need only for Video upload.")
 
 
